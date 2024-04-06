@@ -39,9 +39,10 @@ const { title, text, id, userId, createdAt, updatedAt } = Astro.props;
 	<header class="flex items-center justify-center h-32">
 		<h1 class="text-white font-mono text-2xl">{title}</h1>
 	</header>
-	<p class="text-white font-mono">{text}</p>
-	<p class="text-white font-mono">Post ID: {id}</p>
-	<p class="text-white font-mono">Created at: {createdAt}</p>
-	<p class="text-white font-mono">Updated at: {updatedAt}</p>
-	<p class="text-white font-mono">User ID: {userId}</p>
+	<main class="max-w-3xl">
+		<p class="text-white font-mono">{text}</p>
+	</main>
+	<footer>
+		<p class="text-white font-mono">Built with Astro and Astro DB</p>
+	</footer>
 </Layout>

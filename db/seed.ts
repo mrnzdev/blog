@@ -1,5 +1,4 @@
-import { db, User } from 'astro:db';
-import { Post } from 'astro:db';
+import { db, Post, User } from 'astro:db';
 
 export default async function seed() {
 	await db.insert(User).values([

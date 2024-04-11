@@ -1,48 +1,46 @@
 ---
-import { Post } from 'astro:db';
+import { Post, db } from 'astro:db';
 import Layout from '../../layouts/Layout.astro';
-import { db } from 'astro:db';
 
 export async function getStaticPaths() {
-	// Import the Astro database
-
-	// Fetch the posts from the database
 	const posts = await db.select().from(Post);
 
-	// Map the posts to the required format
 	const pages = posts.map((post) => {
 		return {
 			id: post.id,
 			userId: post.userId,
-			slug: post.title, // Use the post name as the slug
-			title: post.title, // Use the post name as the title
-			text: post.content, // Use the post content as the text
+			slug: post.title,
+			title: post.title,
+			content: post.content,
 			createdAt: post.createdAt,
 			updatedAt: post.updatedAt
 		};
 	});
 
 	return pages.map(
-		({ slug, title, text, id, userId, createdAt, updatedAt }) => {
+		({ slug, title, content, id, userId, createdAt, updatedAt }) => {
 			return {
 				params: { slug },
-				props: { title, text, id, userId, createdAt, updatedAt }
+				props: { title, content, id, userId, createdAt, updatedAt }
 			};
 		}
 	);
 }
 
-const { title, text, id, userId, createdAt, updatedAt } = Astro.props;
+const { title, content } = Astro.props;
+
+export const prerender = true
 ---
 
 <Layout title={title}>
 	<header class="flex items-center justify-center h-32">
-		<h1 class="text-white font-mono text-2xl">{title}</h1>
+		<h1 class="text-white text-2xl">{title}</h1>
 	</header>
 	<main class="max-w-3xl">
-		<p class="text-white font-mono">{text}</p>
+		<p class="text-white">{content}</p>
 	</main>
 	<footer>
-		<p class="text-white font-mono">Built with Astro and Astro DB</p>
+		<p class="text-white">Built with Astro and Astro DB</p>
 	</footer>
 </Layout>
+
